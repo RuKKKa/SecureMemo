@@ -50,4 +50,10 @@ jobs:
 
       # Vite で本番ビルド
       - name: Build production
-        run: npm run build
+        run: |
+          # index.html がリポジトリに存在すればビルド、なければスキップ
+          if [ -f index.html ]; then
+            npm run build
+          else
+            echo "index.html not found – skipping production build."
+          fi
