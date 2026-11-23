@@ -12,6 +12,8 @@ jobs:
     steps:
       # リポジトリのチェックアウト
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       # Node.js環境をセットアップ
       - name: Set up Node
