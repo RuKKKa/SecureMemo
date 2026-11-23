@@ -22,7 +22,7 @@ jobs:
 
       # 依存パッケージインストール(package-lock.jsonのバージョン)
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       # Lintの実行
       - name: Lint code
