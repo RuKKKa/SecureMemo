@@ -17,5 +17,11 @@
     "noFallthroughCasesInSwitch": true,
     "types": ["vite/client", "node", "jest"]
   },
-  "include": ["lib/src", "lib/assets", "test"]
+  "include": [
+    "lib/src/**/*.ts",
+    "lib/src/**/*.tsx",
+    "test/**/*.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ]
 }
