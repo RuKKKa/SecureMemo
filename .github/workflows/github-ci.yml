@@ -1,0 +1,43 @@
+name: Github CI
+
+# push, pull_request, 手動実行(workfrow_dispatch)でトリガー
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # リポジトリのチェックアウト
+      - uses: actions/checkout@v4
+
+      # Node.js環境をセットアップ
+      - name: Set up Node
+        uses: actions/setup-node@v7.1.0
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      # 依存パッケージインストール(package-lock.jsonのバージョン)
+      - name: Install dependencies
+        run: npm ci
+
+      # Lintの実行
+      - name: Lint code
+        run: npm run lint
+
+      # TypeScriptの型チェック
+      - name: Lint code
+        run: npm run lint
+      - name: TypeScript type check
+        run: npx tsc --noEmit
+
+      # Jest テスト実行
+      - name: Run Tests
+        run: npm test
+
+      # Vite で本番ビルド
+      - name: Build production
+        run: npm run build
