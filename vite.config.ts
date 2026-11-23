@@ -1,18 +1,14 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { resolve, dirname } from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import { resolve } from 'path';
 
 export default defineConfig({
   root: '.',
   plugins: [react()],
   build: {
     rollupOptions: {
-      // Explicitly tell Vite where the HTML entry point is
-      input: resolve(__dirname, 'index.html')
+      // Use cwd to locate index.html (works both on Windows and Linux CI)
+      input: resolve(process.cwd(), 'index.html')
     }
   }
 });
