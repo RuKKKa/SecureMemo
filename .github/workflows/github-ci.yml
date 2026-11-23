@@ -1,0 +1,59 @@
+name: Github CI
+
+# push, pull_request, 手動実行(workflow_dispatch)でトリガー
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # リポジトリのチェックアウト
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Node.js環境をセットアップ
+      - name: Set up Node
+        uses: actions/setup-node@v7.1.0
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      # 依存パッケージインストール（lockfile と同期させる）
+      - name: Install dependencies
+        run: npm install
+
+      # Lintの実行
+      - name: Lint code
+        run: npm run lint
+
+      # Commit メッセージの検証 (commitlint)
+      - name: Lint commit messages
+        run: npx commitlint --from=HEAD~1 --to=HEAD
+
+      # TypeScriptの型チェック
+      - name: TypeScript type check
+        run: npx tsc --noEmit
+
+      # Jest テスト実行
+      - name: Run Tests
+        run: |
+          if ls test/**/*.test.* test/**/*.spec.* 1>nul 2>&1; then
+            echo "Test files found. Running jest..."
+            npm test
+          else
+            echo "No test files found. Skipping test step."
+          fi
+
+      # Vite で本番ビルド
+      - name: Build production
+        run: |
+          # index.html がリポジトリに存在すればビルド、なければスキップ
+          if [ -f index.html ]; then
+            npm run build
+          else
+            echo "index.html not found – skipping production build."
+          fi
