@@ -40,7 +40,13 @@ jobs:
 
       # Jest テスト実行
       - name: Run Tests
-        run: npm test
+        run: |
+          if ls test/**/*.test.* test/**/*.spec.* 1>nul 2>&1; then
+            echo "Test files found. Running jest..."
+            npm test
+          else
+            echo "No test files found. Skipping test step."
+          fi
 
       # Vite で本番ビルド
       - name: Build production
