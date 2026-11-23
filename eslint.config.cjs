@@ -1,7 +1,7 @@
 module.exports = [
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js'],
-    ignores: ['postcss.config.js', 'tailwind.config.js', 'vite.config.ts'],
+    ignores: ['postcss.config.js', 'tailwind.config.js', 'vite.config.ts', 'dist/**'],
     languageOptions: {
       parser: require('@typescript-eslint/parser'),
       parserOptions: {
@@ -15,7 +15,7 @@ module.exports = [
       '@typescript-eslint': require('@typescript-eslint/eslint-plugin'),
     },
     rules: {
-      'no-console': 'warn',
+      'no-console': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
     },
   },
