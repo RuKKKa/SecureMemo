@@ -1,6 +1,6 @@
 name: Github CI
 
-# push, pull_request, 手動実行(workfrow_dispatch)でトリガー
+# push, pull_request, 手動実行(workflow_dispatch)でトリガー
 on:
   push:
   pull_request:
@@ -28,9 +28,11 @@ jobs:
       - name: Lint code
         run: npm run lint
 
+      # Commit メッセージの検証 (commitlint)
+      - name: Lint commit messages
+        run: npx commitlint --from=HEAD~1 --to=HEAD
+
       # TypeScriptの型チェック
-      - name: Lint code
-        run: npm run lint
       - name: TypeScript type check
         run: npx tsc --noEmit
 
